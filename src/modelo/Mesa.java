@@ -19,37 +19,16 @@ public class Mesa {
         this.frijol = frijol;
     }
     
-    public void tomaUno(int val){
+    public void toma(int val){
         frijol+=val;
     }
-    
-    public void tomaDos(int val){
-        frijol+=val;
-    }
-    
-    public void tomaTodo(int val){
-        frijol+=val;
-    }
-    
-    public int ponUno(){
-        if(frijol>1){
-            frijol-=1;
-            return 1;
+     
+    public int pon(int val){
+        if(frijol>val){
+            frijol-=val;
+            return val;
         }
-        else if(frijol==1){
-            frijol-=1;
-            setFrijol(10);
-            return 1;
-        }
-        return 0;
-    }
-
-    public int ponDos(){
-        if(frijol>2){
-            frijol-=2;
-            return 2;
-        }
-        else if(frijol<=2){
+        else if(frijol<=val){
             int aux=frijol;
             frijol=0;
             setFrijol(10);
@@ -57,16 +36,13 @@ public class Mesa {
         }
         return 0;
     }
-    
-    public int ponTodo(){
-        int aux=frijol;
-        frijol=0;
-        setFrijol(10);
-        return aux;
-    }
 
     @Override
     public String toString() {
         return "Mesa con " + frijol + " frijoles";
+    }
+
+    public int getFrijol() {
+        return frijol;
     }  
 }

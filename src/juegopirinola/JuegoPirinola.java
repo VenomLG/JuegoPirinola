@@ -51,9 +51,6 @@ public class JuegoPirinola {
         Mesa mesa=new Mesa(10);
         
         JuegoMng mng=new JuegoMng(p,mesa,jugadores);
-        mng.jugar();
-        
-        
+        mng.jugar();        
     }
-    
 }

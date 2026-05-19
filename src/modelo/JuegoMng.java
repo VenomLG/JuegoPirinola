@@ -28,26 +28,35 @@ public class JuegoMng {
     public void turno(Jugador jugador){
         System.out.println(jugador.getNombre());
         Cara cara = pirinola.girar();
-        System.out.println(cara.getAccion());
-        if(cara.getAccion() == "Pon uno")
-            mesa.tomaUno(jugador.ponUno());
-        else if(cara.getAccion() == "Pon dos")
-            mesa.tomaDos(jugador.ponDos());
-        else if(cara.getAccion() == "Pon todo")
-            mesa.tomaTodo(jugador.ponTodo());
-        else if(cara.getAccion() == "Toma uno")
-            jugador.tomaUno(mesa.ponUno());
-        else if(cara.getAccion() == "Toma dos")
-            jugador.tomaDos(mesa.ponDos());
-        else if(cara.getAccion() == "Toma todo")
-            jugador.tomaTodo(mesa.ponTodo());
-        else{
-            int total=0;
-            for (Jugador jdr : jugadores) {
-                if(jdr.getEstado()==true)
-                    total+=jdr.ponUno();
-            }
-            mesa.tomaTodo(total);
+        String accion=cara.getAccion();
+        System.out.println("Pirinola: " + accion);
+        switch (accion) {
+            case "Toma uno":
+                jugador.toma(mesa.pon(1));                 
+                break;
+            case "Toma dos":
+                jugador.toma(mesa.pon(2));
+                break;
+            case "Toma todo":
+                jugador.toma(mesa.pon(mesa.getFrijol()));
+                break;
+            case "Pon uno":
+                mesa.toma(jugador.pon(1));
+                break;
+            case "Pon dos":
+                mesa.toma(jugador.pon(2));
+                break;
+            case "Pon todo":
+                mesa.toma(jugador.pon(jugador.getFrijol()));
+                break;
+            default:
+                int total=0;
+                for (Jugador jdr : jugadores) {
+                    if(jdr.getEstado()==true)
+                        total+=jdr.pon(1);
+                }
+                mesa.toma(total);   
+                break;
         }
     }
     
@@ -69,17 +78,23 @@ public class JuegoMng {
      */
     public void jugar(){
         int partida=0;
-        while(hayGanador()==0){
+        while(jugadorActivo()==0){
             partida++;
             System.out.println("-----Partida "+ partida + " -------");
             partida();
         }
-        if(hayGanador()==1){
-            System.out.println("El ganador es: ");
-            System.out.println(ganador().toString());
+        if(jugadorActivo()==1){
+            partida++;
+            System.out.println("-----Partida "+ partida + " -------");
+            partida();
+            if(jugadorActivo()==1){
+                System.out.println("El ganador es: ");
+                System.out.println(ganador().toString());
+            }
+            else{
+                System.out.println("No hay ganador");
+            }
         }
-        else
-            System.out.println("\nNo hubo ganador...");
     }
     
      private Jugador ganador() {
@@ -92,22 +107,18 @@ public class JuegoMng {
     
     /**
      * Metodo que indica si hay un ganador o no
-     * @return 1-Ganador 0 - jugadores activos -1-perdedores
+     * @return 1 - un solo jugador activo, 0 - varios jugadores activos, -1-cero jugadores activos
      */
-    public int hayGanador(){
+    public int jugadorActivo(){
         int cont=4;
         for (Jugador jdr : jugadores) {
             if(jdr.getEstado()==false)
                 cont--;
         }
-        if(cont>1){
-            estadoJugadores();
-            return 0;
-        }
-        else if(cont==1)
-            return 1;
-        else
-            return -1;
+        estadoJugadores();
+        if(cont>1) return 0;
+        else if(cont==1) return 1;
+        else return -1;
     }
 
     /**

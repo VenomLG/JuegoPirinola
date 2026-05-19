@@ -31,15 +31,7 @@ public class Jugador {
         return estado;
     }
 
-    public void tomaUno(int val){
-        frijol+=val;
-    }
-    
-    public void tomaDos(int val){
-        frijol+=val;
-    }
-    
-    public void tomaTodo(int val){
+    public void toma(int val){
         frijol+=val;
     }
     
@@ -56,12 +48,12 @@ public class Jugador {
         return 0;
     }
 
-    public int ponDos(){
-        if(frijol>2){
-            frijol-=2;
-            return 2;
+    public int pon(int val){
+        if(frijol>val){
+            frijol-=val;
+            return val;
         }
-        else if(frijol<=2){
+        else if(frijol<=val){
             int aux=frijol;
             frijol=0;
             estado=false;
@@ -70,16 +62,9 @@ public class Jugador {
         return 0;
     }
     
-    public int ponTodo(){
-        int aux=frijol;
-        frijol=0;
-        estado=false;
-        return aux;
-    }
-    
     @Override
     public String toString() {
-        return "Jugador:" + "nombre=" + nombre + ", frijol=" + frijol + ", estado=" + estado;
+        return "Jugador: " + nombre + ", frijol= " + frijol + ", estado= " + estado;
     }
     
     
